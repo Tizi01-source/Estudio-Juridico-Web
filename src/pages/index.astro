@@ -1,0 +1,23 @@
+---
+// Página principal: solo junta los componentes en orden
+import Layout from '../layouts/Layout.astro';
+import Menu from '../components/Menu.astro';
+import Hero from '../components/Hero.astro';
+import QuienesSomos from '../components/QuienesSomos.astro';
+import Especialidades from '../components/Especialidades.astro';
+import Contacto from '../components/Contacto.astro';
+import Footer from '../components/Footer.astro';
+import BotonWhatsApp from '../components/BotonWhatsApp.astro';
+---
+
+<Layout>
+  <Menu />
+  <main>
+    <Hero />
+    <QuienesSomos />
+    <Especialidades />
+    <Contacto />
+  </main>
+  <Footer />
+  <BotonWhatsApp />
+</Layout>

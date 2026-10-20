@@ -1,0 +1,18 @@
+---
+// Una sola especialidad. Recibe sus datos por props desde Especialidades.astro
+import type { Especialidad } from '../data/textos';
+
+interface Props {
+  especialidad: Especialidad;
+}
+
+const { especialidad } = Astro.props;
+---
+
+<div class="item-especialidad">
+  <h3 class="titulo-especialidad">{especialidad.titulo}</h3>
+  <p>{especialidad.descripcion}</p>
+  <ul>
+    {especialidad.items.map((item) => <li><strong>{item.etiqueta}</strong> {item.texto}</li>)}
+  </ul>
+</div>

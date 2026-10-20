@@ -1,0 +1,13 @@
+---
+import { quienesSomos } from '../data/textos';
+import Parrafo from './Parrafo.astro';
+---
+
+<section id="quienes-somos" class="bg-cuarzo">
+  <h2>{quienesSomos.titulo}</h2>
+  <div class="contenido-texto">
+    {quienesSomos.parrafos.map((partes) => <Parrafo partes={partes} />)}
+    <h3 class="subtitulo-dorado">{quienesSomos.subtitulo}</h3>
+    {quienesSomos.parrafosSubtitulo.map((partes) => <Parrafo partes={partes} />)}
+  </div>
+</section>

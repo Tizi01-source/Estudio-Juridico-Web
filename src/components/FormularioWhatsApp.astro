@@ -1,0 +1,40 @@
+---
+import { CONFIG } from '../config';
+import { formularioWhatsApp as textos } from '../data/textos';
+---
+
+<form class="caja-form" id="form-whatsapp" novalidate data-numero={CONFIG.whatsappNumero}>
+  <h3><i class="fa-brands fa-whatsapp icono-wa"></i> {textos.titulo}</h3>
+  <label for="wa-nombre" class="solo-lectores">{textos.nombre}</label>
+  <input type="text" id="wa-nombre" name="nombre" placeholder={textos.nombre} autocomplete="name" />
+  <label for="wa-mensaje" class="solo-lectores">{textos.mensaje}</label>
+  <textarea id="wa-mensaje" name="mensaje" placeholder={`${textos.mensaje}...`}></textarea>
+  <button type="submit" class="btn">{textos.boton}</button>
+</form>
+
+<script>
+  declare const Swal: { fire: (opciones: object) => void };
+
+  const formulario = document.getElementById('form-whatsapp') as HTMLFormElement;
+
+  formulario.addEventListener('submit', (evento) => {
+    // Evitamos que el formulario recargue la página
+    evento.preventDefault();
+
+    const nombre = (document.getElementById('wa-nombre') as HTMLInputElement).value;
+    const mensaje = (document.getElementById('wa-mensaje') as HTMLTextAreaElement).value;
+
+    if (!nombre || !mensaje) {
+      Swal.fire({
+        title: 'Campos incompletos',
+        text: 'Por favor, complete su nombre y mensaje.',
+        icon: 'warning',
+        confirmButtonColor: '#C5A869',
+      });
+      return;
+    }
+
+    const texto = `Hola, mi nombre es ${nombre}. Quería realizar la siguiente consulta: ${mensaje}`;
+    window.open(`https://wa.me/${formulario.dataset.numero}?text=${encodeURIComponent(texto)}`, '_blank');
+  });
+</script>

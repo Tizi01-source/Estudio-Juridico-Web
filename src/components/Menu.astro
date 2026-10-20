@@ -1,0 +1,41 @@
+---
+import { menu } from '../data/textos';
+import logoMenu from '../../assets/logo1.png';
+---
+
+<!-- Logo -->
+<img src={logoMenu.src} alt="Costantini y Asociados, ir al inicio" class="logo-nav" id="logo-btn" />
+
+<!-- Menú de Navegación -->
+<nav id="navbar">
+  <i class="fa-solid fa-xmark" id="btn-cerrar"></i>
+  {menu.map((item) => <a href={item.ancla} class="nav-link">{item.texto}</a>)}
+</nav>
+
+<script>
+  const navbar = document.getElementById('navbar')!;
+  const logoBtn = document.getElementById('logo-btn')!;
+  const esCelular = () => window.innerWidth <= 768;
+
+  // Al tocar la crucecita, el panel se vuelve a esconder
+  document.getElementById('btn-cerrar')!.addEventListener('click', () => navbar.classList.remove('abierto'));
+
+  // Al tocar el logo (en celular), abrimos o cerramos el menú
+  logoBtn.addEventListener('click', () => {
+    if (esCelular()) navbar.classList.toggle('abierto');
+  });
+
+  // Al tocar cualquier enlace, cerramos el menú
+  document.querySelectorAll('.nav-link').forEach((link) =>
+    link.addEventListener('click', () => {
+      if (esCelular()) navbar.classList.remove('abierto');
+    }),
+  );
+
+  // Barra oscura y logo achicado al hacer scroll
+  window.addEventListener('scroll', () => {
+    const scrolleado = window.scrollY > 50;
+    navbar.classList.toggle('scrolled', scrolleado);
+    if (!esCelular()) logoBtn.classList.toggle('logo-achicado', scrolleado);
+  });
+</script>
