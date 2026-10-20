@@ -519,3 +519,38 @@ section {
 
 
 
+
+/* =========================================
+   PÁGINA 404
+   ========================================= */
+
+.pagina-404 {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 40px 20px;
+    background-color: var(--negro-elegante);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    text-align: center;
+}
+
+.logo-404 {
+    width: min(420px, 80vw);
+    height: auto;
+}
+
+.pagina-404 h1 {
+    color: var(--blanco);
+    font-weight: 400;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.pagina-404 .btn {
+    width: auto;
+    padding: 15px 30px;
+    border: 1px solid var(--dorado);
+}

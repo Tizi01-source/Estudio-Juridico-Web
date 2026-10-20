@@ -1,0 +1,14 @@
+---
+// Página para direcciones que no existen. Misma estética que el inicio.
+import Layout from '../layouts/Layout.astro';
+import { CONFIG } from '../config';
+import logoHero from '../../assets/logoInicio.png';
+---
+
+<Layout titulo={`Página no encontrada | ${CONFIG.nombre}`} noIndexar>
+  <main class="pagina-404">
+    <img src={logoHero.src} alt={`${CONFIG.nombre}, Estudio Jurídico`} class="logo-404" />
+    <h1>Página no encontrada</h1>
+    <a href="/" class="btn">Volver al inicio</a>
+  </main>
+</Layout>
