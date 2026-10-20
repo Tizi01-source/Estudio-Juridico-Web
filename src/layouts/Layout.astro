@@ -28,6 +28,8 @@ const imagenVistaPrevia = new URL('assets/og-image.jpg', CONFIG.url).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Marca que hay JavaScript: recién ahí se esconden los bloques que aparecen al hacer scroll -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
 
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
@@ -60,5 +62,26 @@ const imagenVistaPrevia = new URL('assets/og-image.jpg', CONFIG.url).href;
   <body>
     <slot />
     <Aviso />
+
+    <script>
+      // Animaciones de entrada: cada bloque con data-aparecer se muestra al entrar en pantalla
+      const bloques = document.querySelectorAll('[data-aparecer]');
+      if ('IntersectionObserver' in window) {
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            entradas.forEach((entrada) => {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add('visible');
+                observador.unobserve(entrada.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -40px 0px', threshold: 0.1 },
+        );
+        bloques.forEach((bloque) => observador.observe(bloque));
+      } else {
+        bloques.forEach((bloque) => bloque.classList.add('visible'));
+      }
+    </script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 ---
-import { CONFIG } from '../config';
+import { CONFIG, linkMapa, linkWhatsApp } from '../config';
 import { contacto, formularioEmail } from '../data/textos';
 import FormularioWhatsApp from './FormularioWhatsApp.astro';
 import FormularioEmail from './FormularioEmail';
@@ -8,16 +8,32 @@ const avisoPrivacidad = CONFIG.avisoPrivacidad.replaceAll('{email}', CONFIG.emai
 ---
 
 <section id="contacto" class="bg-cuarzo">
-  <h2>{contacto.titulo}</h2>
-  <div class="contenido-texto">
+  <h2 data-aparecer>{contacto.titulo}</h2>
+  <div class="datos-contacto" data-aparecer>
     <p>{contacto.intro}</p>
-    <p>📍 <strong>{contacto.etiquetaOficinas}</strong> {CONFIG.oficinas.map((oficina) => oficina.textoVisible).join(' | ')}</p>
-    <p>📞 <strong>{contacto.etiquetaTelefono}</strong> {CONFIG.telefonoVisible}</p>
+    <!-- Mismo texto que antes, ahora tocable: abre Google Maps y WhatsApp -->
+    <p>
+      📍 <strong>{contacto.etiquetaOficinas}</strong>{' '}
+      {CONFIG.oficinas.map((oficina, i) => (
+        <>
+          {i > 0 && ' | '}
+          <a class="enlace-contacto" href={linkMapa(oficina)} target="_blank" rel="noopener" aria-label={`${oficina.textoVisible} (ver en Google Maps)`}>{oficina.textoVisible}</a>
+        </>
+      ))}
+    </p>
+    <p>
+      📞 <strong>{contacto.etiquetaTelefono}</strong>{' '}
+      <a class="enlace-contacto" href={linkWhatsApp(CONFIG.whatsappMensaje)} target="_blank" rel="noopener" aria-label={`${CONFIG.telefonoVisible} (escribir por WhatsApp)`}>{CONFIG.telefonoVisible}</a>
+    </p>
   </div>
 
   <div class="contenedor-formularios">
-    <FormularioWhatsApp />
-    <!-- Isla de React: se activa cuando el formulario aparece en pantalla -->
-    <FormularioEmail client:visible endpoint={CONFIG.formspreeUrl} avisoPrivacidad={avisoPrivacidad} textos={formularioEmail} />
+    <div class="envoltorio-form" data-aparecer>
+      <FormularioWhatsApp />
+    </div>
+    <div class="envoltorio-form" data-aparecer style="--retraso: 0.12s">
+      <!-- Isla de React: se activa cuando el formulario aparece en pantalla -->
+      <FormularioEmail client:visible endpoint={CONFIG.formspreeUrl} avisoPrivacidad={avisoPrivacidad} textos={formularioEmail} />
+    </div>
   </div>
 </section>
