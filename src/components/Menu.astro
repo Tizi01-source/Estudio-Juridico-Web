@@ -1,14 +1,16 @@
 ---
 import { menu } from '../data/textos';
-import logoMenu from '../../assets/logo1.png';
+import Icono from './Icono.astro';
 ---
 
-<!-- Logo -->
-<img src={logoMenu.src} alt="Costantini y Asociados, ir al inicio" class="logo-nav" id="logo-btn" />
+<!-- Logo (copia recortada, en WebP) -->
+<div class="logo-nav" id="logo-btn">
+  <img src="/img/logo-nav-128.webp" srcset="/img/logo-nav-64.webp 64w, /img/logo-nav-128.webp 128w" sizes="49px" width="126" height="107" alt="Costantini y Asociados, ir al inicio" />
+</div>
 
 <!-- Menú de Navegación -->
 <nav id="navbar">
-  <i class="fa-solid fa-xmark" id="btn-cerrar"></i>
+  <button type="button" id="btn-cerrar" aria-label="Cerrar menú"><Icono nombre="cerrar" /></button>
   {menu.map((item) => <a href={item.ancla} class="nav-link">{item.texto}</a>)}
 </nav>
 
@@ -32,10 +34,6 @@ import logoMenu from '../../assets/logo1.png';
     }),
   );
 
-  // Barra oscura y logo achicado al hacer scroll
-  window.addEventListener('scroll', () => {
-    const scrolleado = window.scrollY > 50;
-    navbar.classList.toggle('scrolled', scrolleado);
-    if (!esCelular()) logoBtn.classList.toggle('logo-achicado', scrolleado);
-  });
+  // Barra oscura al hacer scroll
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
 </script>

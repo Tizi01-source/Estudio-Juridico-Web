@@ -1,0 +1,12 @@
+---
+// Ventana de aviso propia (reemplaza a SweetAlert2). Se maneja desde src/scripts/avisos.ts
+// <dialog> es nativo del navegador: bloquea el resto de la página, se cierra con Escape
+// y mantiene el foco del teclado adentro mientras está abierto.
+---
+
+<dialog id="aviso" class="aviso" role="alertdialog" aria-modal="true">
+  <div class="aviso-icono" id="aviso-icono" aria-hidden="true"></div>
+  <h2 class="aviso-titulo" id="aviso-titulo"></h2>
+  <p class="aviso-texto" id="aviso-texto"></p>
+  <button type="button" class="btn aviso-boton" id="aviso-cerrar">OK</button>
+</dialog>

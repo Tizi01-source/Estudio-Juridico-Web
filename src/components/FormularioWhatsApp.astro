@@ -1,10 +1,11 @@
 ---
 import { CONFIG } from '../config';
 import { formularioWhatsApp as textos } from '../data/textos';
+import Icono from './Icono.astro';
 ---
 
 <form class="caja-form" id="form-whatsapp" novalidate data-numero={CONFIG.whatsappNumero}>
-  <h3><i class="fa-brands fa-whatsapp icono-wa"></i> {textos.titulo}</h3>
+  <h3><Icono nombre="whatsapp" clase="icono icono-wa" /> {textos.titulo}</h3>
   <label for="wa-nombre" class="solo-lectores">{textos.nombre}</label>
   <input type="text" id="wa-nombre" name="nombre" placeholder={textos.nombre} autocomplete="name" />
   <label for="wa-mensaje" class="solo-lectores">{textos.mensaje}</label>
@@ -13,7 +14,7 @@ import { formularioWhatsApp as textos } from '../data/textos';
 </form>
 
 <script>
-  declare const Swal: { fire: (opciones: object) => void };
+  import { mostrarAviso } from '../scripts/avisos';
 
   const formulario = document.getElementById('form-whatsapp') as HTMLFormElement;
 
@@ -25,12 +26,7 @@ import { formularioWhatsApp as textos } from '../data/textos';
     const mensaje = (document.getElementById('wa-mensaje') as HTMLTextAreaElement).value;
 
     if (!nombre || !mensaje) {
-      Swal.fire({
-        title: 'Campos incompletos',
-        text: 'Por favor, complete su nombre y mensaje.',
-        icon: 'warning',
-        confirmButtonColor: '#C5A869',
-      });
+      mostrarAviso({ titulo: 'Campos incompletos', texto: 'Por favor, complete su nombre y mensaje.', tipo: 'advertencia' });
       return;
     }
 

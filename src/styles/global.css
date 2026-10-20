@@ -10,6 +10,9 @@
     --gris-oscuro: #333333;
     --blanco: #FFFFFF;
     --verde-whatsapp: #25D366;
+
+    --fuente-titulos: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --fuente-cuerpo: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
 }
 
 /* =========================================
@@ -19,7 +22,7 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--fuente-cuerpo);
     color: var(--gris-oscuro);
     background-color: var(--blanco-cuarzo);
     scroll-behavior: smooth;
@@ -64,21 +67,20 @@ nav a:hover {
     color: var(--dorado);
 }
 
+/* Logo chico (recortado, sin márgenes negativos) */
 .logo-nav {
     position: fixed;
-    left: 20px;
-    top: -27px;
-    height: 100px;
+    left: 41px;
+    top: 3px;
+    padding: 4px;
     z-index: 1001;
+    line-height: 0;
     cursor: default;
-    transition: all 0.3s ease;
 }
 
-@media (min-width: 769px) {
-    .logo-nav.logo-achicado {
-        height: 100px;
-        top: -28px;
-    }
+.logo-nav img {
+    width: 49px;
+    height: auto;
 }
 
 #btn-cerrar {
@@ -94,11 +96,15 @@ section {
     text-align: center;
 }
 
+h2, h3 {
+    font-family: var(--fuente-titulos);
+    font-weight: 600;
+}
+
 h2 {
     color: var(--negro-elegante);
     font-size: 2.5rem;
     margin-bottom: 20px;
-    font-weight: 400;
 }
 
 h2::after {
@@ -175,64 +181,73 @@ section div h3 {
 }
 
 /* =========================================
-   LOGO PRINCIPAL
-   ========================================= */
-
-.logo-hero {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-    transition: transform 0.3s ease;
-    margin-top: -120px;
-}
-
-
-@media (max-width: 768px) {
-    .logo-hero {
-        max-width: 90%;
-    }
-
-}
-
-/* =========================================
-   SECCIÓN INICIO (HERO) CON EFECTO PARALLAX
+   SECCIÓN INICIO (HERO)
+   La foto es una imagen real (<picture>), no un fondo de CSS:
+   así el navegador la descarga primero y en el tamaño justo.
    ========================================= */
 
 #inicio {
+    position: relative;
     height: 100vh;
-    background: linear-gradient(rgba(17, 17, 17, 0.7), rgba(17, 17, 17, 0.7)), url('../../assets/fondo1.jpg') center center no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+    padding-top: 52px;
+    padding-bottom: 148px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: var(--blanco);
+    overflow: hidden;
+    background-color: var(--negro-elegante);
+}
+
+.hero-fondo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Capa oscura sobre la foto */
+#inicio::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(17, 17, 17, 0.7);
 }
 
 #inicio h1 {
-    font-size: 4.5rem;
-    margin: 0;
-    color: var(--dorado);
-    font-weight: 300;
-    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
     width: 100%;
+    margin: 0;
     line-height: 0;
 }
 
-/* El logo dentro del h1 se ve igual que antes */
-#inicio h1 .logo-hero {
+/* Logo recortado: mismo tamaño visible que antes, sin márgenes negativos */
+.logo-hero {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    width: min(626px, 78.27%);
+    height: auto;
+    margin: 0 auto;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
 }
 
-#inicio p {
-    font-size: 1.5rem;
-    margin-top: 10px;
-    font-weight: 300;
-    letter-spacing: 1px;
+@media (max-width: 768px) {
+    #inicio {
+        padding-top: 0;
+        padding-bottom: 80px;
+    }
+
+    .logo-hero {
+        width: 70.44%;
+        margin-bottom: 32px;
+    }
+}
+
+/* Íconos SVG propios (reemplazan a Font Awesome) */
+.icono {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -0.15em;
 }
 
 /* =========================================
@@ -362,6 +377,7 @@ footer {
     height: 60px;
     border-radius: 50%;
     background-color: var(--verde-whatsapp);
+    color: var(--blanco);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -426,9 +442,17 @@ footer {
         position: absolute;
         top: 10px;
         right: 15px;
+        padding: 0;
+        border: none;
+        background: none;
+        line-height: 0;
         color: var(--dorado);
-        font-size: 2.0rem;
         cursor: pointer;
+    }
+
+    #btn-cerrar .icono {
+        width: 32px;
+        height: 32px;
     }
 
     #btn-cerrar:active {
@@ -438,13 +462,21 @@ footer {
     .logo-nav {
         top: 15px;
         left: 15px;
-        height: 50px;
-        background-color: rgba(20, 20, 20, 0.85);
-        padding: 6px;
+        width: 62px;
+        height: 62px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(17, 17, 17, 0.85);
         border-radius: 10px;
-        border: 1px solid #c5a880;
+        border: 1px solid var(--dorado);
         box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         cursor: pointer;
+    }
+
+    .logo-nav img {
+        width: 25px;
     }
 
     .logo-nav:active {
@@ -463,12 +495,6 @@ footer {
 
     nav a:last-child {
         border-bottom: none;
-    }
-
-    #inicio {
-        background-attachment: scroll !important;
-        background-size: cover !important;
-        background-position: center center !important;
     }
 
     h1 {
@@ -514,11 +540,70 @@ section {
     padding-right: max(20px, env(safe-area-inset-right, 0px));
 }
 
+/* =========================================
+   AVISOS (reemplazan a SweetAlert2)
+   ========================================= */
 
+.aviso {
+    width: min(420px, calc(100vw - 32px));
+    box-sizing: border-box;
+    padding: 32px 28px 28px;
+    border: none;
+    border-top: 4px solid var(--dorado);
+    border-radius: 8px;
+    background-color: var(--blanco);
+    color: var(--gris-oscuro);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(17, 17, 17, 0.35);
+}
 
+.aviso::backdrop {
+    background-color: rgba(17, 17, 17, 0.6);
+}
 
+.aviso-icono {
+    line-height: 0;
+}
 
+.aviso-icono svg {
+    width: 64px;
+    height: 64px;
+}
 
+.aviso-titulo {
+    margin: 16px 0 8px;
+    font-size: 1.6rem;
+    color: var(--negro-elegante);
+}
+
+.aviso-titulo::after {
+    display: none;
+}
+
+.aviso-texto {
+    margin: 12px 0 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.aviso-boton {
+    width: auto;
+    min-width: 140px;
+    margin-top: 24px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .aviso[open] {
+        animation: aparecer-aviso 0.2s ease-out;
+    }
+}
+
+@keyframes aparecer-aviso {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
 
 /* =========================================
    PÁGINA 404
@@ -538,13 +623,14 @@ section {
 }
 
 .logo-404 {
-    width: min(420px, 80vw);
+    width: min(420px, 70vw);
     height: auto;
 }
 
 .pagina-404 h1 {
     color: var(--blanco);
-    font-weight: 400;
+    font-family: var(--fuente-titulos);
+    font-weight: 600;
     font-size: 2rem;
     margin: 0;
 }

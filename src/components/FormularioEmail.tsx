@@ -2,8 +2,7 @@
 // En la página se carga como "isla" (client:visible): Astro lo manda como HTML
 // y React lo activa recién cuando el usuario llega a esta parte de la página.
 import { useState, type FormEvent } from 'react';
-
-declare const Swal: { fire: (opciones: object) => void };
+import { mostrarAviso } from '../scripts/avisos';
 
 interface Props {
   endpoint: string;
@@ -38,22 +37,13 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
     const mensaje = datos.mensaje;
 
     if (!nombre || !dni || !correo || !mensaje) {
-      Swal.fire({
-        title: 'Campos incompletos',
-        text: 'Por favor, completá todos los campos obligatorios antes de enviar.',
-        icon: 'warning',
-        confirmButtonColor: '#C5A869',
-      });
+      mostrarAviso({ titulo: 'Campos incompletos', texto: 'Por favor, completá todos los campos obligatorios antes de enviar.', tipo: 'advertencia' });
       return;
     }
 
     // Sin aceptar el tratamiento de datos no se envía
     if (!datos.acepta) {
-      Swal.fire({
-        text: 'Para enviar su consulta, necesitamos que acepte el tratamiento de sus datos.',
-        icon: 'warning',
-        confirmButtonColor: '#C5A869',
-      });
+      mostrarAviso({ texto: 'Para enviar su consulta, necesitamos que acepte el tratamiento de sus datos.', tipo: 'advertencia' });
       return;
     }
 
@@ -73,20 +63,26 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
       });
 
       if (respuesta.ok) {
-        Swal.fire({ title: '¡Consulta enviada!', text: 'Nos comunicaremos a la brevedad.', icon: 'success', confirmButtonColor: '#C5A869' });
+        mostrarAviso({ titulo: '¡Consulta enviada!', texto: 'Nos comunicaremos a la brevedad.', tipo: 'exito' });
         setDatos(VACIO);
       } else {
-        Swal.fire({ title: 'Error', text: 'Hubo un error al enviar el correo. Por favor, intente vía WhatsApp.', icon: 'error', confirmButtonColor: '#C5A869' });
+        mostrarAviso({ titulo: 'Error', texto: 'Hubo un error al enviar el correo. Por favor, intente vía WhatsApp.', tipo: 'error' });
       }
     } catch {
-      Swal.fire({ title: 'Error de conexión', text: 'Error de conexión. Por favor, intente nuevamente.', icon: 'error', confirmButtonColor: '#C5A869' });
+      mostrarAviso({ titulo: 'Error de conexión', texto: 'Error de conexión. Por favor, intente nuevamente.', tipo: 'error' });
     }
   }
 
   return (
     <form className="caja-form" id="form-email" noValidate onSubmit={enviar}>
       <h3>
-        <i className="fa-regular fa-envelope icono-mail"></i> {textos.titulo}
+        <svg className="icono icono-mail" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </g>
+        </svg>{' '}
+        {textos.titulo}
       </h3>
       <label htmlFor="mail-nombre" className="solo-lectores">{textos.nombre}</label>
       <input type="text" id="mail-nombre" name="nombre" placeholder={textos.nombre} autoComplete="name"
