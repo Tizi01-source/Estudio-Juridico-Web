@@ -7,6 +7,8 @@ interface OpcionesAviso {
   titulo?: string;
   texto: string;
   tipo: TipoAviso;
+  /** Elemento que recibe el foco al cerrar (por defecto, el que lo tenía antes de abrir) */
+  focoAlCerrar?: HTMLElement | null;
 }
 
 // Íconos fijos (no dependen de lo que escribe el usuario). Solo colores de la paleta.
@@ -42,7 +44,7 @@ function preparar() {
   dialogo.addEventListener('close', () => elementoAnterior?.focus());
 }
 
-export function mostrarAviso({ titulo, texto, tipo }: OpcionesAviso) {
+export function mostrarAviso({ titulo, texto, tipo, focoAlCerrar }: OpcionesAviso) {
   preparar();
   const dialogo = obtener<HTMLDialogElement>('aviso');
   const elTitulo = obtener('aviso-titulo');
@@ -61,7 +63,7 @@ export function mostrarAviso({ titulo, texto, tipo }: OpcionesAviso) {
     dialogo.removeAttribute('aria-describedby');
   }
 
-  elementoAnterior = document.activeElement as HTMLElement | null;
+  elementoAnterior = focoAlCerrar ?? (document.activeElement as HTMLElement | null);
   if (dialogo.open) dialogo.close();
   dialogo.showModal();
   obtener('aviso-cerrar').focus();

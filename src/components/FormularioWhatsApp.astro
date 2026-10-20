@@ -1,36 +1,63 @@
 ---
 import { CONFIG } from '../config';
-import { formularioWhatsApp as textos } from '../data/textos';
+import { formularioWhatsApp as textos, mensajes } from '../data/textos';
 import Icono from './Icono.astro';
 ---
 
-<form class="caja-form" id="form-whatsapp" novalidate data-numero={CONFIG.whatsappNumero}>
+<form class="caja-form" id="form-whatsapp" novalidate data-numero={CONFIG.whatsappNumero} data-error-nombre={mensajes.errorNombre} data-error-consulta={mensajes.errorConsulta}>
   <h3><Icono nombre="whatsapp" clase="icono icono-wa" /> {textos.titulo}</h3>
-  <label for="wa-nombre" class="solo-lectores">{textos.nombre}</label>
-  <input type="text" id="wa-nombre" name="nombre" placeholder={textos.nombre} autocomplete="name" />
-  <label for="wa-mensaje" class="solo-lectores">{textos.mensaje}</label>
-  <textarea id="wa-mensaje" name="mensaje" placeholder={`${textos.mensaje}...`}></textarea>
+
+  <div class="campo">
+    <label for="wa-nombre" class="etiqueta">{textos.nombre}</label>
+    <input type="text" id="wa-nombre" name="nombre" autocomplete="name" aria-describedby="error-wa-nombre" />
+    <p class="error-campo" id="error-wa-nombre" hidden></p>
+  </div>
+
+  <div class="campo">
+    <label for="wa-mensaje" class="etiqueta">{textos.mensaje}</label>
+    <textarea id="wa-mensaje" name="mensaje" aria-describedby="error-wa-mensaje"></textarea>
+    <p class="error-campo" id="error-wa-mensaje" hidden></p>
+  </div>
+
   <button type="submit" class="btn">{textos.boton}</button>
 </form>
 
 <script>
-  import { mostrarAviso } from '../scripts/avisos';
-
+  // Misma lógica que antes: nombre + consulta -> se abre WhatsApp con el número de config.ts
   const formulario = document.getElementById('form-whatsapp') as HTMLFormElement;
+  const campoNombre = document.getElementById('wa-nombre') as HTMLInputElement;
+  const campoMensaje = document.getElementById('wa-mensaje') as HTMLTextAreaElement;
+
+  // Muestra (o borra, si el mensaje está vacío) el error debajo de un campo
+  function marcarError(campo: HTMLInputElement | HTMLTextAreaElement, mensaje: string) {
+    const error = document.getElementById(`error-${campo.id}`)!;
+    error.textContent = mensaje;
+    error.hidden = !mensaje;
+    if (mensaje) campo.setAttribute('aria-invalid', 'true');
+    else campo.removeAttribute('aria-invalid');
+  }
+
+  // Al corregir un campo, su error desaparece
+  [campoNombre, campoMensaje].forEach((campo) => campo.addEventListener('input', () => marcarError(campo, '')));
 
   formulario.addEventListener('submit', (evento) => {
     // Evitamos que el formulario recargue la página
     evento.preventDefault();
 
-    const nombre = (document.getElementById('wa-nombre') as HTMLInputElement).value;
-    const mensaje = (document.getElementById('wa-mensaje') as HTMLTextAreaElement).value;
+    const nombre = campoNombre.value.trim();
+    const mensaje = campoMensaje.value.trim();
 
-    if (!nombre || !mensaje) {
-      mostrarAviso({ titulo: 'Campos incompletos', texto: 'Por favor, complete su nombre y mensaje.', tipo: 'advertencia' });
+    marcarError(campoNombre, nombre ? '' : formulario.dataset.errorNombre!);
+    marcarError(campoMensaje, mensaje ? '' : formulario.dataset.errorConsulta!);
+
+    // Si falta algo, el foco va al primer campo con error
+    const primerError = formulario.querySelector<HTMLElement>('[aria-invalid="true"]');
+    if (primerError) {
+      primerError.focus();
       return;
     }
 
     const texto = `Hola, mi nombre es ${nombre}. Quería realizar la siguiente consulta: ${mensaje}`;
-    window.open(`https://wa.me/${formulario.dataset.numero}?text=${encodeURIComponent(texto)}`, '_blank');
+    window.open(`https://wa.me/${formulario.dataset.numero}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
   });
 </script>

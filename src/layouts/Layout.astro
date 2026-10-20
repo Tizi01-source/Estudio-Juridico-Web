@@ -12,6 +12,9 @@ import '@fontsource/source-sans-3/latin-600.css';
 import '@fontsource/source-sans-3/latin-700.css';
 import '../styles/global.css';
 
+// La fuente del menú (lo primero que se lee sobre la foto) se pide antes, para que el texto no "salte" al cargar
+import fuenteMenu from '@fontsource/source-sans-3/files/source-sans-3-latin-600-normal.woff2?url';
+
 interface Props {
   titulo?: string;
   descripcion?: string;
@@ -35,6 +38,8 @@ const imagenVistaPrevia = new URL('assets/og-image.jpg', CONFIG.url).href;
     <meta name="description" content={descripcion} />
     {noIndexar ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={CONFIG.url} />}
     <meta name="theme-color" content="#111111" />
+    <link rel="preload" href={fuenteMenu} as="font" type="font/woff2" crossorigin />
+
 
     <!-- Vista previa al compartir el link (WhatsApp, Facebook, etc.) -->
     <meta property="og:type" content="website" />

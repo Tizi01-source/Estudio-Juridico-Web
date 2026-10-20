@@ -121,4 +121,23 @@ export const formularioEmail = {
   boton: 'Enviar Email',
 };
 
-export const footer = '© 2026 Costantini y Asociados - Estudio Jurídico. Todos los derechos reservados.';
+// Mensajes de los formularios (avisos y errores). Los avisos son los mismos del sitio anterior;
+// los errores por campo y "Enviando..." son nuevos (Paso 2).
+export const mensajes = {
+  errorNombre: 'Escriba su nombre.',
+  errorDni: 'Escriba su DNI.',
+  errorDniFormato: 'Escriba su DNI solo con números.',
+  errorEmail: 'Escriba su email.',
+  errorEmailFormato: 'Revise su email. Debe ser parecido a nombre@gmail.com.',
+  errorConsulta: 'Escriba su consulta.',
+  enviando: 'Enviando...',
+  faltaAceptar: 'Para enviar su consulta, necesitamos que acepte el tratamiento de sus datos.',
+  enviadoTitulo: '¡Consulta enviada!',
+  enviadoTexto: 'Nos comunicaremos a la brevedad.',
+  errorEnvioTitulo: 'Error',
+  errorEnvioTexto: 'Hubo un error al enviar el correo. Por favor, intente vía WhatsApp.',
+  errorConexionTitulo: 'Error de conexión',
+  errorConexionTexto: 'Error de conexión. Por favor, intente nuevamente.',
+};
+
+export const footer ='© 2026 Costantini y Asociados - Estudio Jurídico. Todos los derechos reservados.';

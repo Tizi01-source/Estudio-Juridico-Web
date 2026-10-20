@@ -3,37 +3,76 @@ import { menu } from '../data/textos';
 import Icono from './Icono.astro';
 ---
 
-<!-- Logo (copia recortada, en WebP) -->
-<div class="logo-nav" id="logo-btn">
+<!-- Logo: enlace real al inicio (en celular y en escritorio) -->
+<a href="#inicio" class="logo-nav">
   <img src="/img/logo-nav-128.webp" srcset="/img/logo-nav-64.webp 64w, /img/logo-nav-128.webp 128w" sizes="49px" width="126" height="107" alt="Costantini y Asociados, ir al inicio" />
-</div>
+</a>
+
+<!-- Botón de menú (solo en celular) -->
+<button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="navbar" aria-label="Abrir menú">
+  <Icono nombre="menu" />
+</button>
 
 <!-- Menú de Navegación -->
-<nav id="navbar">
+<nav id="navbar" aria-label="Menú principal">
   <button type="button" id="btn-cerrar" aria-label="Cerrar menú"><Icono nombre="cerrar" /></button>
   {menu.map((item) => <a href={item.ancla} class="nav-link">{item.texto}</a>)}
 </nav>
 
 <script>
   const navbar = document.getElementById('navbar')!;
-  const logoBtn = document.getElementById('logo-btn')!;
-  const esCelular = () => window.innerWidth <= 768;
+  const btnMenu = document.getElementById('btn-menu')!;
+  const btnCerrar = document.getElementById('btn-cerrar')!;
+  const celular = window.matchMedia('(max-width: 768px)');
 
-  // Al tocar la crucecita, el panel se vuelve a esconder
-  document.getElementById('btn-cerrar')!.addEventListener('click', () => navbar.classList.remove('abierto'));
+  const estaAbierto = () => navbar.classList.contains('abierto');
 
-  // Al tocar el logo (en celular), abrimos o cerramos el menú
-  logoBtn.addEventListener('click', () => {
-    if (esCelular()) navbar.classList.toggle('abierto');
+  // En celular, con el menú cerrado, los enlaces no reciben foco ni los leen los lectores de pantalla
+  function actualizarAcceso() {
+    navbar.inert = celular.matches && !estaAbierto();
+  }
+
+  function abrir() {
+    navbar.classList.add('abierto');
+    btnMenu.setAttribute('aria-expanded', 'true');
+    actualizarAcceso();
+    navbar.querySelector<HTMLElement>('.nav-link')?.focus();
+  }
+
+  function cerrar(devolverFoco: boolean) {
+    if (!estaAbierto()) return;
+    navbar.classList.remove('abierto');
+    btnMenu.setAttribute('aria-expanded', 'false');
+    actualizarAcceso();
+    if (devolverFoco) btnMenu.focus();
+  }
+
+  btnMenu.addEventListener('click', () => (estaAbierto() ? cerrar(true) : abrir()));
+  btnCerrar.addEventListener('click', () => cerrar(true));
+
+  // Al tocar un enlace, el menú se cierra y la página baja a la sección
+  navbar.querySelectorAll('.nav-link').forEach((enlace) => enlace.addEventListener('click', () => cerrar(false)));
+
+  // Escape cierra el menú y devuelve el foco al botón
+  document.addEventListener('keydown', (evento) => {
+    if (evento.key === 'Escape' && estaAbierto()) cerrar(true);
   });
 
-  // Al tocar cualquier enlace, cerramos el menú
-  document.querySelectorAll('.nav-link').forEach((link) =>
-    link.addEventListener('click', () => {
-      if (esCelular()) navbar.classList.remove('abierto');
-    }),
-  );
+  // Un toque fuera del menú también lo cierra
+  document.addEventListener('click', (evento) => {
+    const destino = evento.target as Node;
+    if (estaAbierto() && !navbar.contains(destino) && !btnMenu.contains(destino)) cerrar(false);
+  });
+
+  // Si cambia el ancho de pantalla (por ejemplo, al girar el celular), se reacomoda
+  celular.addEventListener('change', () => {
+    cerrar(false);
+    actualizarAcceso();
+  });
+  actualizarAcceso();
 
   // Barra oscura al hacer scroll
-  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+  const marcarScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 50);
+  window.addEventListener('scroll', marcarScroll, { passive: true });
+  marcarScroll();
 </script>
