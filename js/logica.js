@@ -9,36 +9,47 @@ window.addEventListener('scroll', function() {
     }
 });
 
+// ARMA EL LINK DE WHATSAPP (número de config.js + texto codificado para la URL)
+function linkWhatsApp(texto) {
+    return `https://wa.me/${CONFIG.whatsappNumero}?text=${encodeURIComponent(texto)}`;
+}
+
 // LÓGICA PARA ENVIAR WHATSAPP
-function enviarWhatsApp() {
+function enviarWhatsApp(evento) {
+    // Evitamos que el formulario recargue la página
+    evento.preventDefault();
+
     // Capturamos los valores de los inputs
     const nombre = document.getElementById('wa-nombre').value;
     const mensaje = document.getElementById('wa-mensaje').value;
 
     // Validamos que no envíen vacío
     if (!nombre || !mensaje) {
-        alert("Por favor, complete su nombre y mensaje.");
+        Swal.fire({
+            title: 'Campos incompletos',
+            text: 'Por favor, complete su nombre y mensaje.',
+            icon: 'warning',
+            confirmButtonColor: '#C5A869'
+        });
         return;
     }
-
-    // Número del estudio (incluir código de país, sin el +, por ej: 5491122334455 para Argentina)
-    const numeroTelefono = "5491122614440"; // REEMPLAZAR POR EL REAL
 
     // Armamos el texto
     const textoFinal = `Hola, mi nombre es ${nombre}. Quería realizar la siguiente consulta: ${mensaje}`;
 
-    // Codificamos el texto para que los espacios y saltos de línea funcionen en la URL
-    const urlWhatsApp = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(textoFinal)}`;
-
     // Abrimos WhatsApp en una pestaña nueva
-    window.open(urlWhatsApp, '_blank');
+    window.open(linkWhatsApp(textoFinal), '_blank');
 }
 
 // LÓGICA PARA ENVIAR EMAIL
-async function enviarEmail() {
+async function enviarEmail(evento) {
+    // Evitamos que el formulario recargue la página
+    evento.preventDefault();
+    const formulario = evento.target;
+
     // Capturamos los valores
     const nombre = document.getElementById('mail-nombre').value;
-    const dni = document.getElementById('mail-dni').value;
+    const dni = document.getElementById('mail-dni').value.trim();
     const correo = document.getElementById('mail-correo').value.trim();
     const telefono = document.getElementById('mail-telefono').value.trim();
     const mensaje = document.getElementById('mail-mensaje').value;
@@ -49,7 +60,17 @@ async function enviarEmail() {
             title: 'Campos incompletos',
             text: 'Por favor, completá todos los campos obligatorios antes de enviar.',
             icon: 'warning', // El ícono amarillo de exclamación
-            confirmButtonColor: '#1A365D' // El mismo azul formal del estudio
+            confirmButtonColor: '#C5A869'
+        });
+        return;
+    }
+
+    // Sin aceptar el tratamiento de datos no se envía
+    if (!document.getElementById('mail-acepta').checked) {
+        Swal.fire({
+            text: 'Para enviar su consulta, necesitamos que acepte el tratamiento de sus datos.',
+            icon: 'warning',
+            confirmButtonColor: '#C5A869'
         });
         return;
     }
@@ -57,14 +78,15 @@ async function enviarEmail() {
     // Endpoint de Formspree
     const formspreeUrl = "https://formspree.io/f/mkjnwgag"
 
-    // Estructura de los datos + Asunto dinámico
+    // Estructura de los datos + Asunto dinámico (el DNI va solo en el cuerpo)
     const datos = {
         nombre: nombre,
         dni: dni,
         telefono: telefono,
         email: correo,
         mensaje: mensaje,
-        _subject: `CONSULTA DE ${nombre.toUpperCase()} DNI ${dni}`
+        acepta_tratamiento_datos: "Sí", // Constancia de la aceptación
+        _subject: `CONSULTA DE ${nombre.toUpperCase()}`
     };
 
     try {
@@ -85,10 +107,8 @@ async function enviarEmail() {
                 confirmButtonColor: '#C5A869'
             });
 
-            // Limpiamos los campos
-            document.getElementById('mail-nombre').value = '';
-            document.getElementById('mail-dni').value = '';
-            document.getElementById('mail-mensaje').value = '';
+            // Limpiamos todos los campos del formulario
+            formulario.reset();
         } else {
             Swal.fire({
                 title: 'Error',
@@ -98,15 +118,70 @@ async function enviarEmail() {
             });
         }
     } catch (error) {
-        alert("Error de conexión. Por favor, intente nuevamente.");
+        Swal.fire({
+            title: 'Error de conexión',
+            text: 'Error de conexión. Por favor, intente nuevamente.',
+            icon: 'error',
+            confirmButtonColor: '#C5A869'
+        });
     }
 }
+
+// DATOS ESTRUCTURADOS PARA GOOGLE (JSON-LD), armados con los datos de config.js
+function agregarDatosEstructurados() {
+    const datos = {
+        "@context": "https://schema.org",
+        "@type": "LegalService",
+        "name": CONFIG.nombreCompleto,
+        "alternateName": CONFIG.nombre,
+        "url": CONFIG.url,
+        "telephone": `+${CONFIG.whatsappNumero}`,
+        "email": CONFIG.email,
+        "image": `${CONFIG.url}assets/og-image.jpg`,
+        "logo": `${CONFIG.url}assets/logo-estudio-512.png`,
+        "address": CONFIG.oficinas.map(oficina => ({
+            "@type": "PostalAddress",
+            "streetAddress": oficina.calle,
+            "addressLocality": oficina.localidad,
+            "addressRegion": oficina.provincia,
+            "addressCountry": "AR"
+        }))
+    };
+
+    // Solo se agrega si hay perfiles cargados en config.js
+    if (CONFIG.perfiles.length > 0) {
+        datos.sameAs = CONFIG.perfiles;
+    }
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(datos);
+    document.head.appendChild(script);
+}
+
+agregarDatosEstructurados();
 
 document.addEventListener("DOMContentLoaded", () => {
     const logoBtn = document.getElementById('logo-btn');
     const navbar = document.getElementById('navbar');
     const links = document.querySelectorAll('.nav-link');
     const btnCerrar = document.getElementById('btn-cerrar');
+
+    // Formularios: el Enter y el botón disparan el evento "submit"
+    document.getElementById('form-whatsapp').addEventListener('submit', enviarWhatsApp);
+    document.getElementById('form-email').addEventListener('submit', enviarEmail);
+
+    // Aviso de privacidad con el email de config.js (textContent: se inserta como texto, nunca como HTML)
+    document.getElementById('aviso-privacidad').textContent = CONFIG.avisoPrivacidad.replaceAll('{email}', CONFIG.email);
+
+    // Botón flotante de WhatsApp con el mensaje precargado
+    document.getElementById('btn-whatsapp').href = linkWhatsApp(CONFIG.whatsappMensaje);
+
+    // Mientras se escribe en un formulario, el botón flotante se esconde (en celular) para no tapar los campos
+    document.querySelectorAll('#contacto form').forEach(formulario => {
+        formulario.addEventListener('focusin', () => document.body.classList.add('escribiendo'));
+        formulario.addEventListener('focusout', () => document.body.classList.remove('escribiendo'));
+    });
 
     // Al tocar la crucecita, el panel se vuelve a esconder
     if (btnCerrar) {
