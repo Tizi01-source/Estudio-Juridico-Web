@@ -65,6 +65,16 @@ async function enviarEmail(evento) {
         return;
     }
 
+    // Sin aceptar el tratamiento de datos no se envía
+    if (!document.getElementById('mail-acepta').checked) {
+        Swal.fire({
+            text: 'Para enviar su consulta, necesitamos que acepte el tratamiento de sus datos.',
+            icon: 'warning',
+            confirmButtonColor: '#C5A869'
+        });
+        return;
+    }
+
     // Endpoint de Formspree
     const formspreeUrl = "https://formspree.io/f/mkjnwgag"
 
@@ -75,6 +85,7 @@ async function enviarEmail(evento) {
         telefono: telefono,
         email: correo,
         mensaje: mensaje,
+        acepta_tratamiento_datos: "Sí", // Constancia de la aceptación
         _subject: `CONSULTA DE ${nombre.toUpperCase()}`
     };
 
@@ -159,6 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Formularios: el Enter y el botón disparan el evento "submit"
     document.getElementById('form-whatsapp').addEventListener('submit', enviarWhatsApp);
     document.getElementById('form-email').addEventListener('submit', enviarEmail);
+
+    // Aviso de privacidad con el email de config.js (textContent: se inserta como texto, nunca como HTML)
+    document.getElementById('aviso-privacidad').textContent = CONFIG.avisoPrivacidad.replaceAll('{email}', CONFIG.email);
 
     // Botón flotante de WhatsApp con el mensaje precargado
     document.getElementById('btn-whatsapp').href = linkWhatsApp(CONFIG.whatsappMensaje);

@@ -279,6 +279,36 @@ textarea {
     height: 100px;
 }
 
+/* Aviso de privacidad y casilla de aceptación (formulario de email) */
+.aviso-privacidad {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--gris-oscuro);
+    text-align: left;
+    margin: 0 0 15px;
+    overflow-wrap: anywhere;
+}
+
+.casilla-privacidad {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    color: var(--gris-oscuro);
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.casilla-privacidad input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--negro-elegante);
+}
+
 .btn {
     display: inline-block;
     width: 100%;

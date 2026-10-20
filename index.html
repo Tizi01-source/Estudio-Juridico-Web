@@ -192,6 +192,12 @@
       <input type="tel" id="mail-telefono" name="telefono" placeholder="Su Teléfono (Opcional)" autocomplete="tel">
       <label for="mail-mensaje" class="solo-lectores">Detalle de su consulta</label>
       <textarea id="mail-mensaje" name="mensaje" placeholder="Detalle de su consulta..."></textarea>
+      <!-- El texto del aviso lo carga logica.js desde config.js -->
+      <p class="aviso-privacidad" id="aviso-privacidad"></p>
+      <label class="casilla-privacidad">
+        <input type="checkbox" id="mail-acepta" name="acepta_tratamiento_datos" aria-describedby="aviso-privacidad">
+        Acepto el tratamiento de mis datos para este fin.
+      </label>
       <button type="submit" class="btn">Enviar Email</button>
     </form>
 

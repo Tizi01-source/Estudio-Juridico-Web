@@ -15,6 +15,10 @@ const CONFIG = {
 
     email: "dr.costantiniyasociados@gmail.com",
 
+    // Aviso de privacidad del formulario de email (BORRADOR, pendiente de aprobación del estudio)
+    // {email} se reemplaza automáticamente por el email de arriba
+    avisoPrivacidad: "Usamos sus datos (nombre, DNI, correo y teléfono) únicamente para responder su consulta. Pueden ser procesados a través de un servicio de formularios con servidores en el exterior. Usted puede ejercer los derechos de acceso, rectificación, actualización y supresión de sus datos escribiendo a {email}. La Agencia de Acceso a la Información Pública, órgano de control de la Ley 25.326, atiende las denuncias y reclamos por incumplimientos.",
+
     oficinas: [
         { calle: "25 de Mayo 267", localidad: "Ciudad Autónoma de Buenos Aires", provincia: "CABA" },
         { calle: "Constitución 317", localidad: "Haedo", provincia: "Provincia de Buenos Aires" }
