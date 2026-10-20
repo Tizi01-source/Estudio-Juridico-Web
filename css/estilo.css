@@ -201,7 +201,7 @@ section div h3 {
 
 #inicio {
     height: 100vh;
-    background: linear-gradient(rgba(17, 17, 17, 0.7), rgba(17, 17, 17, 0.7)), url('../assets/fondo.jpg') center center no-repeat;
+    background: linear-gradient(rgba(17, 17, 17, 0.7), rgba(17, 17, 17, 0.7)), url('../assets/fondo1.jpg') center center no-repeat;
     background-size: cover;
     background-attachment: fixed;
     display: flex;

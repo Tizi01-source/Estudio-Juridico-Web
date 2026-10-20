@@ -60,7 +60,7 @@ async function enviarEmail(evento) {
             title: 'Campos incompletos',
             text: 'Por favor, completá todos los campos obligatorios antes de enviar.',
             icon: 'warning', // El ícono amarillo de exclamación
-            confirmButtonColor: '#1A365D' // El mismo azul formal del estudio
+            confirmButtonColor: '#C5A869'
         });
         return;
     }
