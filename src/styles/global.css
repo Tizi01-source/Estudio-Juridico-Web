@@ -864,9 +864,17 @@ body.contacto-visible .btn-whatsapp {
         font-size: 1.125rem;
     }
 
+    /* Las dos cajas del mismo ancho, centradas, con un máximo cómodo */
     .contenedor-formularios {
         flex-direction: column;
+        align-items: center;
         gap: 30px;
+    }
+
+    .envoltorio-form {
+        flex: none;
+        width: 100%;
+        max-width: 520px;
     }
 
     .caja-form {
