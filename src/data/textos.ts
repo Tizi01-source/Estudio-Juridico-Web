@@ -143,4 +143,5 @@ export const mensajes = {
   errorConexionTexto: 'Error de conexión. Por favor, intente nuevamente.',
 };
 
-export const footer ='© 2026 Costantini y Asociados - Estudio Jurídico. Todos los derechos reservados.';
+// El año sale de la fecha de compilación: se actualiza solo con cada publicación
+export const footer = `© ${new Date().getFullYear()} Costantini y Asociados - Estudio Jurídico. Todos los derechos reservados.`;
