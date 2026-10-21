@@ -539,7 +539,14 @@ footer p {
     justify-content: center;
     box-shadow: 0 4px 12px rgba(17, 17, 17, 0.3);
     z-index: 999;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Con la sección Contacto en pantalla, el botón se esconde (y no recibe foco) */
+body.contacto-visible .btn-whatsapp {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .btn-whatsapp svg {

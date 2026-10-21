@@ -16,4 +16,11 @@ import Icono from './Icono.astro';
     if ((evento.target as HTMLElement).closest('form')) document.body.classList.add('escribiendo');
   });
   contacto?.addEventListener('focusout', () => document.body.classList.remove('escribiendo'));
+
+  // Mientras la sección Contacto está en pantalla, el botón se esconde (ahí ya están los formularios)
+  if (contacto && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entrada]) => {
+      document.body.classList.toggle('contacto-visible', entrada.isIntersecting);
+    }).observe(contacto);
+  }
 </script>
