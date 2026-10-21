@@ -11,7 +11,6 @@ interface Props {
   textos: {
     titulo: string;
     nombre: string;
-    dni: string;
     email: string;
     telefono: string;
     mensaje: string;
@@ -20,18 +19,16 @@ interface Props {
   };
 }
 
-type Campo = 'nombre' | 'dni' | 'email' | 'telefono' | 'mensaje';
+type Campo = 'nombre' | 'email' | 'telefono' | 'mensaje';
 type Errores = Partial<Record<Campo, string>>;
 
-const VACIO = { nombre: '', dni: '', email: '', telefono: '', mensaje: '' };
-const ORDEN: Campo[] = ['nombre', 'dni', 'email', 'telefono', 'mensaje'];
+const VACIO = { nombre: '', email: '', telefono: '', mensaje: '' };
+const ORDEN: Campo[] = ['nombre', 'email', 'telefono', 'mensaje'];
 
 /** Revisa los campos y devuelve un mensaje simple por cada problema */
 function validar(datos: typeof VACIO): Errores {
   const errores: Errores = {};
   if (!datos.nombre.trim()) errores.nombre = mensajes.errorNombre;
-  if (!datos.dni.trim()) errores.dni = mensajes.errorDni;
-  else if (!/^[0-9.\s]+$/.test(datos.dni.trim())) errores.dni = mensajes.errorDniFormato;
   if (!datos.email.trim()) errores.email = mensajes.errorEmail;
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.email.trim())) errores.email = mensajes.errorEmailFormato;
   if (!datos.mensaje.trim()) errores.mensaje = mensajes.errorConsulta;
@@ -80,12 +77,11 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           nombre,
-          dni: datos.dni.trim(),
           telefono: datos.telefono.trim(),
           email: datos.email.trim(),
           mensaje: datos.mensaje,
           acepta_tratamiento_datos: 'Sí', // Constancia de la aceptación
-          _subject: `CONSULTA DE ${nombre.toUpperCase()}`, // El DNI va solo en el cuerpo
+          _subject: `CONSULTA DE ${nombre.toUpperCase()}`,
           _gotcha: trampa.current?.value ?? '', // Campo trampa: si un robot lo completa, Formspree descarta el envío
         }),
       });
@@ -145,7 +141,6 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
       </h3>
 
       {campo('nombre', textos.nombre, { type: 'text', autoComplete: 'name' })}
-      {campo('dni', textos.dni, { type: 'text', inputMode: 'numeric', autoComplete: 'off' })}
       {campo('email', textos.email, { type: 'email', autoComplete: 'email', spellCheck: 'false' })}
       {campo('telefono', textos.telefono, { type: 'tel', autoComplete: 'tel' })}
       {campo('mensaje', textos.mensaje, {})}

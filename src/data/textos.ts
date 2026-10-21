@@ -119,7 +119,6 @@ export const formularioWhatsApp = {
 export const formularioEmail = {
   titulo: 'Vía Email',
   nombre: 'Su Nombre',
-  dni: 'Su DNI',
   email: 'Su Email',
   telefono: 'Su Teléfono (Opcional)',
   mensaje: 'Detalle de su consulta',
@@ -131,8 +130,6 @@ export const formularioEmail = {
 // los errores por campo y "Enviando..." son nuevos (Paso 2).
 export const mensajes = {
   errorNombre: 'Escriba su nombre.',
-  errorDni: 'Escriba su DNI.',
-  errorDniFormato: 'Escriba su DNI solo con números.',
   errorEmail: 'Escriba su email.',
   errorEmailFormato: 'Revise su email. Debe ser parecido a nombre@gmail.com.',
   errorConsulta: 'Escriba su consulta.',
