@@ -119,7 +119,8 @@ nav button:focus-visible,
 
 /* Botones del menú de celular: no se ven en escritorio */
 #btn-cerrar,
-.btn-menu {
+.btn-menu,
+.panel-encabezado {
     display: none;
 }
 
@@ -694,102 +695,124 @@ footer p {
 
 @media (max-width: 768px) {
 
+    /* Panel del menú: entra desde la derecha, del mismo lado que el botón */
     nav {
         position: fixed;
         top: 0;
-        left: -100%;
-        width: 250px;
+        left: auto;
+        right: -100%;
+        width: min(300px, 85vw);
         height: 100vh;
+        height: 100dvh;
+        box-sizing: border-box;
+        padding: calc(14px + env(safe-area-inset-top, 0px)) env(safe-area-inset-right, 0px) 24px 0;
+        overflow-y: auto;
         background-color: var(--negro-elegante);
         flex-direction: column;
         justify-content: flex-start;
-        align-items: flex-start;
-        transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        align-items: stretch;
+        transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         z-index: 1000;
-        padding: 15px 0;
     }
 
     nav.abierto {
-        left: 0;
+        right: 0;
         z-index: 1002;
+        box-shadow: -6px 0 24px rgba(17, 17, 17, 0.45);
     }
 
-    /* Cruz para cerrar: 48 px de área táctil */
+    /* Arriba del panel: logo (enlace al inicio) y botón "Cerrar" */
+    .panel-encabezado {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 14px 16px 24px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--dorado);
+    }
+
+    /* El logo también es un enlace: sin el margen de los enlaces de la barra */
+    .logo-panel {
+        margin: 0;
+        padding: 0;
+        line-height: 0;
+    }
+
+    .logo-panel img {
+        width: 120px;
+        height: auto;
+    }
+
     #btn-cerrar {
         display: flex;
         align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 6px;
-        right: 8px;
-        width: 48px;
-        height: 48px;
-        padding: 0;
-        border: none;
+        gap: 8px;
+        min-height: 48px;
+        padding: 0 14px;
+        border: 1px solid var(--dorado);
+        border-radius: 8px;
         background: none;
-        color: var(--dorado);
+        color: var(--blanco);
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
         cursor: pointer;
     }
 
     #btn-cerrar .icono {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
         vertical-align: 0;
+        color: var(--dorado);
     }
 
-    /* Logo y botón de menú: misma caja oscura con borde dorado */
-    .logo-nav,
+    /* En celular no hay logo flotante: el logo está dentro del panel */
+    .logo-nav {
+        display: none;
+    }
+
+    /* Un solo botón de menú: ícono + palabra, caja oscura con borde dorado.
+       Se lee sobre la foto y sobre las secciones claras. */
     .btn-menu {
         position: fixed;
-        top: 15px;
-        width: 62px;
-        height: 62px;
-        padding: 0;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        right: calc(12px + env(safe-area-inset-right, 0px));
         display: flex;
         align-items: center;
-        justify-content: center;
-        background-color: rgba(17, 17, 17, 0.85);
-        border-radius: 10px;
+        gap: 10px;
+        min-height: 48px;
+        padding: 0 16px;
+        background-color: rgba(17, 17, 17, 0.92);
         border: 1px solid var(--dorado);
-        box-shadow: 0 4px 10px rgba(17, 17, 17, 0.5);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(17, 17, 17, 0.45);
+        color: var(--blanco);
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        cursor: pointer;
         z-index: 1001;
     }
 
-    .logo-nav {
-        left: 15px;
-    }
-
-    .btn-menu {
-        right: 15px;
-        color: var(--dorado);
-        cursor: pointer;
-    }
-
     .btn-menu .icono {
-        width: 30px;
-        height: 30px;
+        width: 26px;
+        height: 26px;
         vertical-align: 0;
+        color: var(--dorado);
     }
 
-    .logo-nav img {
-        width: 25px;
-    }
-
-    nav {
-        padding-top: 64px;
-    }
-
-    nav a {
+    nav .nav-link {
         margin: 0;
         font-size: 1.2rem;
-        width: 80%;
         box-sizing: border-box;
         padding: 20px 25px;
         text-align: left;
         border-bottom: 0.5px solid var(--dorado);
     }
 
-    nav a:last-child {
+    nav .nav-link:last-child {
         border-bottom: none;
     }
 

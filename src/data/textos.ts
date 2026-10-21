@@ -20,6 +20,12 @@ export const menu = [
   { texto: 'Contacto', ancla: '#contacto' },
 ];
 
+// Botones del menú del celular (textos nuevos, Paso 2)
+export const botonesMenu = {
+  abrir: 'MENÚ',
+  cerrar: 'Cerrar',
+};
+
 export const quienesSomos = {
   titulo: 'Quiénes Somos',
   parrafos: [
