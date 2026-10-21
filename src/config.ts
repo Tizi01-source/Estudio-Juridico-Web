@@ -67,7 +67,7 @@ export const CONFIG = {
   // Aviso de privacidad del formulario de email (BORRADOR, pendiente de aprobación del estudio)
   // {email} se reemplaza automáticamente por el email de arriba
   avisoPrivacidad:
-    'Usamos sus datos (nombre, DNI, correo y teléfono) únicamente para responder su consulta. Pueden ser procesados a través de un servicio de formularios con servidores en el exterior. Usted puede ejercer los derechos de acceso, rectificación, actualización y supresión de sus datos escribiendo a {email}. La Agencia de Acceso a la Información Pública, órgano de control de la Ley 25.326, atiende las denuncias y reclamos por incumplimientos.',
+    'Usamos sus datos (nombre, correo y teléfono) únicamente para responder su consulta. Pueden ser procesados a través de un servicio de formularios con servidores en el exterior. Usted puede ejercer los derechos de acceso, rectificación, actualización y supresión de sus datos escribiendo a {email}. La Agencia de Acceso a la Información Pública, órgano de control de la Ley 25.326, atiende las denuncias y reclamos por incumplimientos.',
 };
 
 /** Link de WhatsApp con un texto ya codificado para la URL */
