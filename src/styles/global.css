@@ -13,7 +13,7 @@
     --fuente-titulos: 'Playfair Display', Georgia, 'Times New Roman', serif;
     --fuente-cuerpo: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
 
-    --alto-menu: 72px;
+    --alto-menu: 60px;
 }
 
 /* =========================================
@@ -63,7 +63,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 20px 0;
+    padding: 12px 0;
     background-color: transparent;
     transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
     z-index: 1000;
@@ -74,7 +74,7 @@ nav {
 
 nav.scrolled {
     background-color: var(--negro-elegante);
-    padding: 15px 0;
+    padding: 8.5px 0; /* Barra de unos 60 px */
     box-shadow: 0 4px 10px rgba(17, 17, 17, 0.5);
 }
 
@@ -106,15 +106,15 @@ nav button:focus-visible,
 .logo-nav {
     position: fixed;
     left: 41px;
-    top: 3px;
+    top: 7px;
     padding: 4px;
     z-index: 1001;
     line-height: 0;
 }
 
 .logo-nav img {
-    width: 49px;
-    height: auto;
+    width: auto;
+    height: 38px;
 }
 
 /* Botones del menú de celular: no se ven en escritorio */
