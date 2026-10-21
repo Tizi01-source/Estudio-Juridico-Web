@@ -1,0 +1,60 @@
+---
+// Datos estructurados (JSON-LD) para Google, armados al compilar desde config.ts.
+// Quedan escritos en el HTML: no dependen de JavaScript en el navegador.
+// Solo se incluye lo que está cargado (perfiles, horarios, coordenadas). Nada se inventa.
+import { CONFIG } from '../config';
+
+const idEstudio = `${CONFIG.url}#estudio`;
+const telefono = `+${CONFIG.whatsappNumero}`;
+const imagen = new URL('assets/og-image.jpg', CONFIG.url).href;
+const logo = new URL('assets/logo-estudio-512.png', CONFIG.url).href;
+
+const horarios = CONFIG.horarios.map((horario) => ({
+  '@type': 'OpeningHoursSpecification',
+  dayOfWeek: horario.dias,
+  opens: horario.abre,
+  closes: horario.cierra,
+}));
+
+// El estudio como organización
+const estudio = {
+  '@type': 'Organization',
+  '@id': idEstudio,
+  name: CONFIG.nombreCompleto,
+  alternateName: CONFIG.nombre,
+  url: CONFIG.url,
+  logo,
+  image: imagen,
+  telephone: telefono,
+  email: CONFIG.email,
+  ...(CONFIG.perfiles.length > 0 && { sameAs: CONFIG.perfiles }),
+};
+
+// Cada oficina como una sede con su propia dirección
+const sedes = CONFIG.oficinas.map((oficina, i) => ({
+  '@type': 'LegalService',
+  '@id': `${CONFIG.url}#sede-${i + 1}`,
+  name: CONFIG.nombreCompleto,
+  url: CONFIG.url,
+  image: imagen,
+  telephone: telefono,
+  email: CONFIG.email,
+  parentOrganization: { '@id': idEstudio },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: oficina.calle,
+    addressLocality: oficina.localidad,
+    addressRegion: oficina.provincia,
+    addressCountry: 'AR',
+  },
+  ...(oficina.coordenadas && {
+    geo: { '@type': 'GeoCoordinates', latitude: oficina.coordenadas.latitud, longitude: oficina.coordenadas.longitud },
+  }),
+  ...(horarios.length > 0 && { openingHoursSpecification: horarios }),
+}));
+
+// "<" se escapa para que ningún texto pueda cerrar la etiqueta <script> antes de tiempo
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': [estudio, ...sedes] }).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" set:html={json} />

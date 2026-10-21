@@ -1,0 +1,12 @@
+---
+// Lista + componente: las 6 especialidades salen de una lista y se dibujan con el mismo componente
+import { especialidades } from '../data/textos';
+import TarjetaEspecialidad from './TarjetaEspecialidad.astro';
+---
+
+<section id="especialidades" class="bg-blanco">
+  <h2 data-aparecer>{especialidades.titulo}</h2>
+  <div class="grilla-especialidades">
+    {especialidades.lista.map((especialidad, i) => <TarjetaEspecialidad especialidad={especialidad} retraso={(i % 2) * 0.12} />)}
+  </div>
+</section>

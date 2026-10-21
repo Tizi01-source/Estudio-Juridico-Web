@@ -1,0 +1,20 @@
+---
+// Una sola especialidad. Recibe sus datos por props desde Especialidades.astro
+import type { Especialidad } from '../data/textos';
+
+interface Props {
+  especialidad: Especialidad;
+  /** Segundos de espera de la animación de entrada (para que no aparezcan todas juntas) */
+  retraso?: number;
+}
+
+const { especialidad, retraso = 0 } = Astro.props;
+---
+
+<article class="tarjeta-especialidad" data-aparecer style={`--retraso: ${retraso}s`}>
+  <h3>{especialidad.titulo}</h3>
+  <p>{especialidad.descripcion}</p>
+  <ul>
+    {especialidad.items.map((item) => <li><strong>{item.etiqueta}</strong> {item.texto}</li>)}
+  </ul>
+</article>

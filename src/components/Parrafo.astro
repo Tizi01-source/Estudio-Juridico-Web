@@ -1,0 +1,12 @@
+---
+// Arma un párrafo a partir de sus partes (texto común o en negrita), sin usar HTML crudo
+import type { Parte } from '../data/textos';
+
+interface Props {
+  partes: Parte[];
+}
+
+const { partes } = Astro.props;
+---
+
+<p>{partes.map((parte) => (typeof parte === 'string' ? parte : <strong>{parte.negrita}</strong>))}</p>

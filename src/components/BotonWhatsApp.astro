@@ -1,0 +1,26 @@
+---
+// Botón flotante de WhatsApp. El link se arma al compilar con los datos de config.ts
+import { CONFIG, linkWhatsApp } from '../config';
+import Icono from './Icono.astro';
+---
+
+<a href={linkWhatsApp(CONFIG.whatsappMensaje)} id="btn-whatsapp" class="btn-whatsapp" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <Icono nombre="whatsapp" clase="" />
+</a>
+
+<script>
+  // Mientras se escribe en un formulario, el botón se esconde (en celular) para no tapar los campos.
+  // Se escucha en la sección de contacto, así funciona también con el formulario de React.
+  const contacto = document.getElementById('contacto');
+  contacto?.addEventListener('focusin', (evento) => {
+    if ((evento.target as HTMLElement).closest('form')) document.body.classList.add('escribiendo');
+  });
+  contacto?.addEventListener('focusout', () => document.body.classList.remove('escribiendo'));
+
+  // Mientras la sección Contacto está en pantalla, el botón se esconde (ahí ya están los formularios)
+  if (contacto && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entrada]) => {
+      document.body.classList.toggle('contacto-visible', entrada.isIntersecting);
+    }).observe(contacto);
+  }
+</script>

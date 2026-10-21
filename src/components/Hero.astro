@@ -1,0 +1,37 @@
+---
+// Hero: foto de fondo (versión sin bandera) + logo del estudio.
+// La foto es la imagen principal de la página (LCP): se pide con prioridad alta y
+// el navegador elige el tamaño justo (vertical en celular, horizontal en escritorio).
+---
+
+<section id="inicio">
+  <picture class="hero-fondo">
+    <source
+      media="(max-width: 768px)"
+      type="image/webp"
+      srcset="/img/hero-vertical-480.webp 480w, /img/hero-vertical-720.webp 720w, /img/hero-vertical-960.webp 960w"
+      sizes="100vw"
+    />
+    <img
+      src="/img/hero-1920.webp"
+      srcset="/img/hero-1280.webp 1280w, /img/hero-1920.webp 1920w"
+      sizes="100vw"
+      width="1920"
+      height="1280"
+      alt=""
+      fetchpriority="high"
+    />
+  </picture>
+  <h1>
+    <img
+      src="/img/logo-hero-640.webp"
+      srcset="/img/logo-hero-320.webp 320w, /img/logo-hero-640.webp 640w, /img/logo-hero-960.webp 960w, /img/logo-hero-1200.webp 1200w"
+      sizes="(max-width: 768px) 63vw, 626px"
+      width="1603"
+      height="1047"
+      alt="Costantini y Asociados, Estudio Jurídico"
+      class="logo-hero"
+      fetchpriority="high"
+    />
+  </h1>
+</section>

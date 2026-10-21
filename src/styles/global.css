@@ -1,0 +1,893 @@
+/* =========================================
+   VARIABLES (colores de marca y fuentes)
+   ========================================= */
+
+:root {
+    --negro-elegante: #111111;
+    --blanco-cuarzo: #F5F5F0;
+    --dorado: #C5A869;
+    --gris-oscuro: #333333;
+    --blanco: #FFFFFF;
+    --verde-whatsapp: #25D366; /* Única excepción a la paleta: botón de WhatsApp */
+
+    --fuente-titulos: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --fuente-cuerpo: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+
+    --alto-menu: 60px;
+}
+
+/* =========================================
+   CONFIGURACIÓN GENERAL
+   ========================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fuente-cuerpo);
+    font-size: 1.125rem; /* 18 px */
+    line-height: 1.6;
+    color: var(--gris-oscuro);
+    background-color: var(--blanco-cuarzo);
+    overflow-x: hidden;
+}
+
+/* Al saltar a una sección desde el menú, el título no queda debajo de la barra */
+section[id] {
+    scroll-margin-top: var(--alto-menu);
+}
+
+/* Foco visible con teclado: negro sobre fondos claros */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--negro-elegante);
+    outline-offset: 3px;
+}
+
+/* Íconos SVG propios */
+.icono {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -0.15em;
+}
+
+/* =========================================
+   BARRA DE NAVEGACIÓN
+   ========================================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 12px 0;
+    background-color: transparent;
+    transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+nav.scrolled {
+    background-color: var(--negro-elegante);
+    padding: 8.5px 0; /* Barra de unos 60 px */
+    box-shadow: 0 4px 10px rgba(17, 17, 17, 0.5);
+}
+
+nav a {
+    color: var(--blanco);
+    text-decoration: none;
+    margin: 0 20px;
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--dorado);
+}
+
+/* Sobre fondo oscuro, el foco va en dorado */
+nav a:focus-visible,
+nav button:focus-visible,
+.logo-nav:focus-visible,
+.btn-menu:focus-visible {
+    outline-color: var(--dorado);
+}
+
+/* Logo chico: enlace al inicio (recortado, sin márgenes negativos) */
+.logo-nav {
+    position: fixed;
+    left: 41px;
+    top: 7px;
+    padding: 4px;
+    z-index: 1001;
+    line-height: 0;
+}
+
+.logo-nav img {
+    width: auto;
+    height: 38px;
+}
+
+/* Botones del menú de celular: no se ven en escritorio */
+#btn-cerrar,
+.btn-menu,
+.panel-encabezado {
+    display: none;
+}
+
+/* =========================================
+   SECCIONES COMUNES
+   ========================================= */
+
+section {
+    /* A los costados, también respeta la "muesca" del iPhone de costado */
+    padding: 110px max(20px, env(safe-area-inset-right, 0px)) 110px max(20px, env(safe-area-inset-left, 0px));
+    text-align: center;
+}
+
+h2, h3 {
+    font-family: var(--fuente-titulos);
+    font-weight: 600;
+    color: var(--negro-elegante);
+}
+
+h2 {
+    font-size: 2.6rem;
+    line-height: 1.2;
+    margin: 0 0 48px;
+}
+
+/* Línea dorada debajo de los títulos */
+h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: var(--dorado);
+    margin: 18px auto 0;
+}
+
+.bg-cuarzo {
+    background-color: var(--blanco-cuarzo);
+}
+
+.bg-blanco {
+    background-color: var(--blanco);
+}
+
+/* =========================================
+   QUIÉNES SOMOS
+   Ancho de línea cómodo (unas 65 letras) y más aire entre párrafos
+   ========================================= */
+
+.texto-lectura {
+    max-width: 66ch;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.texto-lectura p {
+    margin: 0 0 1.4em;
+}
+
+.texto-lectura p:last-child {
+    margin-bottom: 0;
+}
+
+.texto-lectura strong {
+    color: var(--negro-elegante);
+}
+
+/* Subtítulo en negro con línea dorada debajo (antes era dorado: no se leía bien) */
+.subtitulo {
+    font-size: 1.6rem;
+    line-height: 1.3;
+    margin: 2.4em 0 1em;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--dorado);
+}
+
+/* =========================================
+   ESPECIALIDADES (tarjetas)
+   ========================================= */
+
+.grilla-especialidades {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.tarjeta-especialidad {
+    background-color: var(--blanco-cuarzo);
+    border: 1px solid var(--dorado);
+    border-top: 4px solid var(--dorado);
+    border-radius: 8px;
+    padding: 32px 30px;
+    box-shadow: 0 6px 18px rgba(17, 17, 17, 0.06);
+}
+
+.tarjeta-especialidad h3 {
+    font-size: 1.55rem;
+    line-height: 1.3;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--dorado);
+}
+
+.tarjeta-especialidad p {
+    margin: 0 0 18px;
+}
+
+.tarjeta-especialidad ul {
+    margin: 0;
+    padding-left: 1.2em;
+}
+
+.tarjeta-especialidad li {
+    margin-bottom: 12px;
+    line-height: 1.55;
+}
+
+.tarjeta-especialidad li:last-child {
+    margin-bottom: 0;
+}
+
+.tarjeta-especialidad li::marker {
+    color: var(--dorado);
+}
+
+.tarjeta-especialidad strong {
+    color: var(--negro-elegante);
+}
+
+/* =========================================
+   CONTACTO
+   ========================================= */
+
+.datos-contacto {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+}
+
+.datos-contacto p {
+    margin: 0 0 8px;
+}
+
+/* Teléfono y direcciones tocables: mismo texto, área táctil de más de 44 px */
+.enlace-contacto {
+    display: inline-block;
+    padding: 9px 2px;
+    color: var(--negro-elegante);
+    text-decoration: underline;
+    text-decoration-color: var(--dorado);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+}
+
+.enlace-contacto:hover {
+    text-decoration-color: var(--negro-elegante);
+}
+
+.contenedor-formularios {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 48px auto 0;
+}
+
+.envoltorio-form {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+}
+
+.caja-form {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--blanco);
+    padding: 36px 34px;
+    border-radius: 8px;
+    border: 1px solid var(--dorado);
+    border-top: 4px solid var(--dorado);
+    box-shadow: 0 6px 18px rgba(17, 17, 17, 0.06);
+    text-align: left;
+}
+
+.caja-form h3 {
+    font-size: 1.6rem;
+    margin: 0 0 24px;
+    text-align: center;
+}
+
+.icono-wa,
+.icono-mail {
+    color: var(--dorado);
+}
+
+/* Cada campo: etiqueta visible arriba, campo y (si hace falta) mensaje de error */
+.campo {
+    margin-bottom: 20px;
+}
+
+.etiqueta {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--negro-elegante);
+}
+
+/* Errores sin rojo: borde negro grueso con detalle dorado, ícono y texto en negro */
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+    border: 2px solid var(--negro-elegante);
+    box-shadow: 0 0 0 3px var(--dorado);
+}
+
+.error-campo {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 10px 0 0;
+    font-weight: 700;
+    color: var(--negro-elegante);
+    line-height: 1.4;
+}
+
+.error-campo::before {
+    content: '!';
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--negro-elegante);
+    color: var(--dorado);
+    font-size: 0.9rem;
+    line-height: 22px;
+    text-align: center;
+}
+
+.error-campo[hidden] {
+    display: none;
+}
+
+/* Campo trampa contra spam: nunca se muestra */
+.campo-trampa {
+    display: none;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 14px;
+    margin: 0;
+    border: 1px solid var(--gris-oscuro);
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: var(--blanco);
+    color: var(--negro-elegante);
+    font-family: inherit;
+    font-size: 1.125rem; /* Más de 16 px: el iPhone no hace zoom al tocar el campo */
+}
+
+textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+/* Aviso de privacidad y casilla de aceptación (formulario de email) */
+.aviso-privacidad {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--gris-oscuro);
+    margin: 0 0 16px;
+    overflow-wrap: anywhere;
+}
+
+.casilla-privacidad {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 44px;
+    color: var(--gris-oscuro);
+    margin-bottom: 22px;
+    cursor: pointer;
+}
+
+.casilla-privacidad input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    margin: 2px 0 0;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--negro-elegante);
+}
+
+/* Botones grandes */
+.btn {
+    display: inline-block;
+    width: 100%;
+    min-height: 56px;
+    padding: 16px 24px;
+    background-color: var(--negro-elegante);
+    color: var(--dorado);
+    text-decoration: none;
+    text-align: center;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--dorado);
+    color: var(--negro-elegante);
+}
+
+/* Mientras se envía, el botón queda deshabilitado */
+.btn:disabled {
+    background-color: var(--negro-elegante);
+    color: var(--dorado);
+    opacity: 0.75;
+    cursor: wait;
+}
+
+/* =========================================
+   SECCIÓN INICIO (HERO)
+   La foto es una imagen real (<picture>), no un fondo de CSS:
+   así el navegador la descarga primero y en el tamaño justo.
+   ========================================= */
+
+#inicio {
+    position: relative;
+    height: 100vh;
+    padding-top: 52px;
+    padding-bottom: 148px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: var(--negro-elegante);
+}
+
+.hero-fondo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Capa oscura sobre la foto */
+#inicio::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(17, 17, 17, 0.7);
+}
+
+#inicio h1 {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    line-height: 0;
+}
+
+/* Logo recortado: mismo tamaño visible que antes, sin márgenes negativos */
+.logo-hero {
+    display: block;
+    width: min(626px, 78.27%);
+    height: auto;
+    margin: 0 auto;
+    filter: drop-shadow(0 4px 10px rgba(17, 17, 17, 0.5));
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+footer {
+    background-color: var(--negro-elegante);
+    color: var(--blanco-cuarzo);
+    text-align: center;
+    padding: 32px 20px;
+    font-size: 1rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* =========================================
+   BOTÓN FLOTANTE DE WHATSAPP
+   ========================================= */
+
+.btn-whatsapp {
+    position: fixed;
+    right: calc(20px + env(safe-area-inset-right, 0px));
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--verde-whatsapp);
+    color: var(--blanco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(17, 17, 17, 0.3);
+    z-index: 999;
+    transition: transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Con la sección Contacto en pantalla, el botón se esconde (y no recibe foco) */
+body.contacto-visible .btn-whatsapp {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.btn-whatsapp svg {
+    width: 34px;
+    height: 34px;
+}
+
+.btn-whatsapp:hover {
+    transform: scale(1.08);
+}
+
+/* Anillo blanco y negro: se ve tanto sobre fondos oscuros como claros */
+.btn-whatsapp:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--blanco), 0 0 0 6px var(--negro-elegante);
+}
+
+/* =========================================
+   AVISOS (reemplazan a SweetAlert2)
+   ========================================= */
+
+.aviso {
+    width: min(440px, calc(100vw - 32px));
+    box-sizing: border-box;
+    padding: 32px 28px 28px;
+    border: none;
+    border-top: 4px solid var(--dorado);
+    border-radius: 8px;
+    background-color: var(--blanco);
+    color: var(--gris-oscuro);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(17, 17, 17, 0.35);
+}
+
+.aviso::backdrop {
+    background-color: rgba(17, 17, 17, 0.6);
+}
+
+.aviso-icono {
+    line-height: 0;
+}
+
+.aviso-icono svg {
+    width: 64px;
+    height: 64px;
+}
+
+.aviso-titulo {
+    margin: 16px 0 8px;
+    font-size: 1.6rem;
+}
+
+.aviso-titulo::after {
+    display: none;
+}
+
+.aviso-texto {
+    margin: 12px 0 0;
+    font-size: 1.15rem;
+    line-height: 1.5;
+}
+
+.aviso-boton {
+    width: auto;
+    min-width: 140px;
+    margin-top: 24px;
+}
+
+/* =========================================
+   ANIMACIONES DE ENTRADA
+   Solo si el usuario no pidió menos movimiento. Usan opacidad y
+   transform, que no mueven el resto del diseño (sin saltos).
+   ========================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+    .js [data-aparecer] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+        transition-delay: var(--retraso, 0s);
+    }
+
+    .js [data-aparecer].visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    .aviso[open] {
+        animation: aparecer-aviso 0.2s ease-out;
+    }
+}
+
+@keyframes aparecer-aviso {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* =========================================
+   PÁGINA 404
+   ========================================= */
+
+.pagina-404 {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 40px 20px;
+    background-color: var(--negro-elegante);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    text-align: center;
+}
+
+.logo-404 {
+    width: min(420px, 70vw);
+    height: auto;
+}
+
+.pagina-404 h1 {
+    color: var(--blanco);
+    font-family: var(--fuente-titulos);
+    font-weight: 600;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.pagina-404 .btn {
+    width: auto;
+    border: 1px solid var(--dorado);
+}
+
+.pagina-404 .btn:focus-visible {
+    outline-color: var(--dorado);
+}
+
+/* ================= DISEÑO RESPONSIVO (CELULARES) ================= */
+
+@media (max-width: 768px) {
+
+    /* Panel del menú: entra desde la derecha, del mismo lado que el botón */
+    nav {
+        position: fixed;
+        top: 0;
+        left: auto;
+        right: -100%;
+        width: min(300px, 85vw);
+        height: 100vh;
+        height: 100dvh;
+        box-sizing: border-box;
+        padding: calc(14px + env(safe-area-inset-top, 0px)) env(safe-area-inset-right, 0px) 24px 0;
+        overflow-y: auto;
+        background-color: var(--negro-elegante);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1000;
+    }
+
+    nav.abierto {
+        right: 0;
+        z-index: 1002;
+        box-shadow: -6px 0 24px rgba(17, 17, 17, 0.45);
+    }
+
+    /* Arriba del panel: logo (enlace al inicio) y botón "Cerrar" */
+    .panel-encabezado {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 14px 16px 24px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--dorado);
+    }
+
+    /* El logo también es un enlace: sin el margen de los enlaces de la barra */
+    .logo-panel {
+        margin: 0;
+        padding: 0;
+        line-height: 0;
+    }
+
+    .logo-panel img {
+        width: 120px;
+        height: auto;
+    }
+
+    #btn-cerrar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 48px;
+        padding: 0 14px;
+        border: 1px solid var(--dorado);
+        border-radius: 8px;
+        background: none;
+        color: var(--blanco);
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    #btn-cerrar .icono {
+        width: 22px;
+        height: 22px;
+        vertical-align: 0;
+        color: var(--dorado);
+    }
+
+    /* En celular no hay logo flotante: el logo está dentro del panel */
+    .logo-nav {
+        display: none;
+    }
+
+    /* Un solo botón de menú: ícono + palabra, caja oscura con borde dorado.
+       Se lee sobre la foto y sobre las secciones claras. */
+    .btn-menu {
+        position: fixed;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        right: calc(12px + env(safe-area-inset-right, 0px));
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 48px;
+        padding: 0 16px;
+        background-color: rgba(17, 17, 17, 0.92);
+        border: 1px solid var(--dorado);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(17, 17, 17, 0.45);
+        color: var(--blanco);
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .btn-menu .icono {
+        width: 26px;
+        height: 26px;
+        vertical-align: 0;
+        color: var(--dorado);
+    }
+
+    nav .nav-link {
+        margin: 0;
+        font-size: 1.2rem;
+        box-sizing: border-box;
+        padding: 20px 25px;
+        text-align: left;
+        border-bottom: 0.5px solid var(--dorado);
+    }
+
+    nav .nav-link:last-child {
+        border-bottom: none;
+    }
+
+    #inicio {
+        padding-top: 0;
+        padding-bottom: 80px;
+    }
+
+    .logo-hero {
+        width: 70.44%;
+        margin-bottom: 32px;
+    }
+
+    section {
+        padding-top: 64px;
+        padding-bottom: 64px;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 36px;
+    }
+
+    .texto-lectura {
+        font-size: 1.15rem;
+    }
+
+    .subtitulo {
+        font-size: 1.4rem;
+    }
+
+    .grilla-especialidades {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .tarjeta-especialidad {
+        padding: 26px 22px;
+    }
+
+    .datos-contacto {
+        font-size: 1.125rem;
+    }
+
+    /* Las dos cajas del mismo ancho, centradas, con un máximo cómodo */
+    .contenedor-formularios {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .envoltorio-form {
+        flex: none;
+        width: 100%;
+        max-width: 520px;
+    }
+
+    .caja-form {
+        padding: 28px 22px;
+    }
+
+    /* Espacio al final para que el botón de WhatsApp no tape el footer */
+    footer {
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Mientras se completa un formulario, el botón flotante se esconde */
+    body.escribiendo .btn-whatsapp {
+        display: none;
+    }
+}
