@@ -27,7 +27,7 @@ export const CONFIG = {
   nombreCompleto: 'Estudio Jurídico Costantini y Asociados', // Igual que en Google Maps
   url: 'https://www.costantiniyasociados.com/',
 
-  tituloPagina: 'Estudio Jurídico en CABA y Haedo | Costantini y Asociados',
+  tituloPagina: 'Estudio Jurídico Costantini y Asociados',
   descripcion:
     'Estudio Jurídico Costantini y Asociados. Asesoramiento en salud y discapacidad, accidentes, sucesiones, penal, comercial y faltas y tránsito. Oficinas en CABA y Haedo.',
 
