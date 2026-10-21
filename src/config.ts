@@ -61,8 +61,11 @@ export const CONFIG = {
   // Horarios de atención. Vacío hasta que el estudio los defina (no se muestran ni se informan a Google)
   horarios: [] as Horario[],
 
-  // Enlaces a perfiles externos (por ejemplo, el perfil de Google cuando exista)
-  perfiles: [] as string[],
+  // Enlaces a perfiles externos (Google Maps, redes sociales). Google los usa para relacionar el sitio con el estudio
+  perfiles: [
+    'https://maps.app.goo.gl/e5QFngGKL2SMTuNA6',
+    'https://www.instagram.com/estudiojuridico.costantini',
+  ] as string[],
 
   // Aviso de privacidad del formulario de email (BORRADOR, pendiente de aprobación del estudio)
   // {email} se reemplaza automáticamente por el email de arriba
