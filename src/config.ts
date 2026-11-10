@@ -73,6 +73,15 @@ export const CONFIG = {
     'Usamos sus datos (nombre, correo y teléfono) únicamente para responder su consulta. Pueden ser procesados a través de un servicio de formularios con servidores en el exterior. Usted puede ejercer los derechos de acceso, rectificación, actualización y supresión de sus datos escribiendo a {email}. La Agencia de Acceso a la Información Pública, órgano de control de la Ley 25.326, atiende las denuncias y reclamos por incumplimientos.',
 };
 
+// Google Ads: medición de conversiones (cuenta del estudio).
+// Si "etiqueta" queda vacía, no se carga nada de Google. Si "conversionContacto" queda vacía, no se mide nada.
+// Ojo: el número de cliente de Google Ads (el de la cuenta) NO va acá; solo los valores que empiezan con "AW-".
+// Va aparte de CONFIG para que el JavaScript del navegador cargue solo estos dos datos y no todo el archivo.
+export const GOOGLE_ADS = {
+  etiqueta: 'AW-18465643820',
+  conversionContacto: 'AW-18465643820/YA4qCNbfybEdEKy6jeVE',
+};
+
 /** Link de WhatsApp con un texto ya codificado para la URL */
 export function linkWhatsApp(texto: string): string {
   return `https://wa.me/${CONFIG.whatsappNumero}?text=${encodeURIComponent(texto)}`;

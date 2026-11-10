@@ -23,6 +23,8 @@ import Icono from './Icono.astro';
 </form>
 
 <script>
+  import { trackContacto } from '../scripts/conversiones';
+
   // Misma lógica que antes: nombre + consulta -> se abre WhatsApp con el número de config.ts
   const formulario = document.getElementById('form-whatsapp') as HTMLFormElement;
   const campoNombre = document.getElementById('wa-nombre') as HTMLInputElement;
@@ -40,9 +42,14 @@ import Icono from './Icono.astro';
   // Al corregir un campo, su error desaparece
   [campoNombre, campoMensaje].forEach((campo) => campo.addEventListener('input', () => marcarError(campo, '')));
 
+  // Después de abrir WhatsApp, un segundo envío (doble clic) se ignora durante 1,5 segundos
+  const BLOQUEO_MS = 1500;
+  let bloqueadoHasta = 0;
+
   formulario.addEventListener('submit', (evento) => {
     // Evitamos que el formulario recargue la página
     evento.preventDefault();
+    if (Date.now() < bloqueadoHasta) return;
 
     const nombre = campoNombre.value.trim();
     const mensaje = campoMensaje.value.trim();
@@ -58,6 +65,9 @@ import Icono from './Icono.astro';
     }
 
     const texto = `Hola, mi nombre es ${nombre}. Quería realizar la siguiente consulta: ${mensaje}`;
+    bloqueadoHasta = Date.now() + BLOQUEO_MS;
+    // Conversión de Google Ads: se registra justo antes de abrir WhatsApp
+    trackContacto('form-whatsapp');
     window.open(`https://wa.me/${formulario.dataset.numero}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
   });
 </script>

@@ -23,7 +23,7 @@ const avisoPrivacidad = CONFIG.avisoPrivacidad.replaceAll('{email}', CONFIG.emai
     </p>
     <p>
       📞 <strong>{contacto.etiquetaTelefono}</strong>{' '}
-      <a class="enlace-contacto" href={linkWhatsApp(CONFIG.whatsappMensaje)} target="_blank" rel="noopener" aria-label={`${CONFIG.telefonoVisible} (escribir por WhatsApp)`}>{CONFIG.telefonoVisible}</a>
+      <a class="enlace-contacto" id="tel-whatsapp" href={linkWhatsApp(CONFIG.whatsappMensaje)} target="_blank" rel="noopener" aria-label={`${CONFIG.telefonoVisible} (escribir por WhatsApp)`}>{CONFIG.telefonoVisible}</a>
     </p>
   </div>
 
@@ -37,3 +37,10 @@ const avisoPrivacidad = CONFIG.avisoPrivacidad.replaceAll('{email}', CONFIG.emai
     </div>
   </div>
 </section>
+
+<script>
+  import { trackContacto } from '../scripts/conversiones';
+
+  // Conversión de Google Ads: el número de teléfono abre WhatsApp, así que un clic cuenta como contacto
+  document.getElementById('tel-whatsapp')?.addEventListener('click', () => trackContacto('tel-whatsapp'));
+</script>

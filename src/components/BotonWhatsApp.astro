@@ -9,6 +9,11 @@ import Icono from './Icono.astro';
 </a>
 
 <script>
+  import { trackContacto } from '../scripts/conversiones';
+
+  // Conversión de Google Ads: un clic en el botón cuenta como contacto
+  document.getElementById('btn-whatsapp')?.addEventListener('click', () => trackContacto('boton-whatsapp'));
+
   // Mientras se escribe en un formulario, el botón se esconde (en celular) para no tapar los campos.
   // Se escucha en la sección de contacto, así funciona también con el formulario de React.
   const contacto = document.getElementById('contacto');
