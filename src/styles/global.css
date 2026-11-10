@@ -521,6 +521,13 @@ footer p {
     margin: 0;
 }
 
+/* Aviso de cookies: más chico que el resto del pie, pero legible y con el mismo contraste (cuarzo sobre negro) */
+.aviso-cookies {
+    margin-top: 12px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
 /* =========================================
    BOTÓN FLOTANTE DE WHATSAPP
    ========================================= */

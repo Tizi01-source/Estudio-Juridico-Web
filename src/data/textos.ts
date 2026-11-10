@@ -145,3 +145,6 @@ export const mensajes = {
 
 // El año sale de la fecha de compilación: se actualiza solo con cada publicación
 export const footer = `© ${new Date().getFullYear()} Costantini y Asociados - Estudio Jurídico. Todos los derechos reservados.`;
+
+// Aviso de cookies del pie de página (por la medición de conversiones de Google Ads)
+export const avisoCookies = 'Este sitio utiliza cookies de Google para medir los resultados de nuestros anuncios.';
