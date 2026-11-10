@@ -23,6 +23,8 @@ import Icono from './Icono.astro';
 </form>
 
 <script>
+  import { trackContacto } from '../scripts/conversiones';
+
   // Misma lógica que antes: nombre + consulta -> se abre WhatsApp con el número de config.ts
   const formulario = document.getElementById('form-whatsapp') as HTMLFormElement;
   const campoNombre = document.getElementById('wa-nombre') as HTMLInputElement;
@@ -58,6 +60,8 @@ import Icono from './Icono.astro';
     }
 
     const texto = `Hola, mi nombre es ${nombre}. Quería realizar la siguiente consulta: ${mensaje}`;
+    // Conversión de Google Ads: se registra justo antes de abrir WhatsApp
+    trackContacto('form-whatsapp');
     window.open(`https://wa.me/${formulario.dataset.numero}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
   });
 </script>

@@ -3,6 +3,7 @@
 // y React lo activa recién cuando el usuario llega a esta parte de la página.
 import { useRef, useState, type FormEvent } from 'react';
 import { mostrarAviso } from '../scripts/avisos';
+import { trackContacto } from '../scripts/conversiones';
 import { mensajes } from '../data/textos';
 
 interface Props {
@@ -43,6 +44,7 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
   const formulario = useRef<HTMLFormElement>(null);
   const trampa = useRef<HTMLInputElement>(null);
   const casilla = useRef<HTMLInputElement>(null);
+  const enCurso = useRef(false);
 
   // Al escribir en un campo, su error desaparece
   function cambiar(campo: Campo, valor: string) {
@@ -53,7 +55,8 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
   async function enviar(evento: FormEvent) {
     // Evitamos que el formulario recargue la página
     evento.preventDefault();
-    if (enviando) return;
+    // Candado inmediato contra doble clic: el estado "enviando" tarda un instante en actualizarse
+    if (enviando || enCurso.current) return;
 
     const nuevosErrores = validar(datos);
     setErrores(nuevosErrores);
@@ -70,6 +73,7 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
     }
 
     const nombre = datos.nombre.trim();
+    enCurso.current = true;
     setEnviando(true);
     try {
       const respuesta = await fetch(endpoint, {
@@ -87,6 +91,8 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
       });
 
       if (respuesta.ok) {
+        // Conversión de Google Ads: solo cuando Formspree confirma que el mensaje llegó
+        trackContacto('email');
         // Limpiamos todo el formulario
         setDatos(VACIO);
         setAcepta(false);
@@ -99,6 +105,7 @@ export default function FormularioEmail({ endpoint, avisoPrivacidad, textos }: P
     } catch {
       mostrarAviso({ titulo: mensajes.errorConexionTitulo, texto: mensajes.errorConexionTexto, tipo: 'error' });
     } finally {
+      enCurso.current = false;
       setEnviando(false);
     }
   }
