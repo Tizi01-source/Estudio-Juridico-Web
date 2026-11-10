@@ -35,13 +35,14 @@ const etiquetaGoogle = GOOGLE_ADS.etiqueta.trim();
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     {etiquetaGoogle && (
       <>
-        <!-- Etiqueta de Google (gtag.js) para medir conversiones de Google Ads, tal como la da Google -->
+        <!-- Etiqueta de Google (gtag.js) para medir conversiones de Google Ads, tal como la da Google.
+             Único cambio: send_page_view: false, para que no mande "visitas de página" (remarketing) al cargar -->
         <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${etiquetaGoogle}`}></script>
         <script is:inline set:html={`window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', ${JSON.stringify(etiquetaGoogle)});`}></script>
+      gtag('config', ${JSON.stringify(etiquetaGoogle)}, { 'send_page_view': false });`}></script>
       </>
     )}
     <!-- Marca que hay JavaScript: recién ahí se esconden los bloques que aparecen al hacer scroll -->

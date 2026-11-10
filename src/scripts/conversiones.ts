@@ -2,6 +2,7 @@
 // trackContacto() avisa a Google que alguien nos contactó. Se llama SOLO desde:
 //   - el formulario de email, cuando Formspree confirma el envío;
 //   - el botón flotante de WhatsApp, al hacer clic;
+//   - el número de teléfono de Contacto (abre WhatsApp), al hacer clic;
 //   - el formulario de WhatsApp, justo antes de abrir wa.me.
 // Nunca al cargar la página.
 import { GOOGLE_ADS } from '../config';
